@@ -36,6 +36,8 @@ echo "*** Setting up kustomize directory"
 mkdir -p "${KUSTOMIZE_DIR}"
 cp -R "${KUSTOMIZE_TEMPLATE}" "${KUSTOMIZE_DIR}"
 
+sed -i s/tools/${NAMESPACE}/g  ${KUSTOMIZE_DIR}/jenkins/kustomization.yaml
+
 echo "*** Cleaning up helm chart tests"
 rm -rf "${JENKINS_CHART}/templates/tests"
 
@@ -59,7 +61,7 @@ echo "*** Applying Jenkins yaml to kube"
 kubectl apply -n "${NAMESPACE}" -f "${JENKINS_YAML}"
 
 echo "*** Waiting for Jenkins"
-until ${SCRIPT_DIR}/checkPodRunning.sh jenkins; do
+until ${SCRIPT_DIR}/checkPodRunning.sh jenkins ${NAMESPACE}; do
     echo '>>> waiting for Jenkins'
     sleep 300
 done
