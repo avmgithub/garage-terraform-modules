@@ -34,8 +34,6 @@ resource "null_resource" "jenkins_release_iks" {
       KUBECONFIG_IKS = "${var.cluster_config_file}"
     }
   }
-
-  depends_on = ["ibm_container_cluster.iks_cluster"]
 }
 
 resource "null_resource" "jenkins_release_openshift" {
