@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P);
 
 JENKINS_CONFIG_CHART="$1"
@@ -36,7 +38,7 @@ echo "*** Setting up kustomize directory"
 mkdir -p "${KUSTOMIZE_DIR}"
 cp -R "${KUSTOMIZE_TEMPLATE}" "${KUSTOMIZE_DIR}"
 
-sed -i s/tools/${NAMESPACE}/g  ${KUSTOMIZE_DIR}/jenkins/kustomization.yaml
+sed -i -e "s/tools/${NAMESPACE}/g"  ${KUSTOMIZE_DIR}/jenkins/kustomization.yaml
 
 echo "*** Cleaning up helm chart tests"
 rm -rf "${JENKINS_CHART}/templates/tests"
