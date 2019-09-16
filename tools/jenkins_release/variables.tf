@@ -17,4 +17,4 @@ variable "cluster_type" {
   description = "The cluster type (openshift or kubernetes)"
 }
 
-variable "depends_on" {}
+variable "depends_on" { type = "string }
