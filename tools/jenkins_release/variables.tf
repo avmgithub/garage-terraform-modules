@@ -16,3 +16,5 @@ variable "cluster_ingress_hostname" {
 variable "cluster_type" {
   description = "The cluster type (openshift or kubernetes)"
 }
+
+variable depends_on { default = [], type = "list"}
