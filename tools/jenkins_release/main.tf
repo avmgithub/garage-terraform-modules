@@ -24,7 +24,6 @@ resource "null_resource" "jenkins_release_iks" {
       TMP_DIR    = "${local.tmp_dir}"
     }
 
-    depends_on = ["ibm_container_cluster.iks_cluster"]
   }
 
   provisioner "local-exec" {
@@ -35,6 +34,8 @@ resource "null_resource" "jenkins_release_iks" {
       KUBECONFIG_IKS = "${var.cluster_config_file}"
     }
   }
+
+  depends_on = ["ibm_container_cluster.iks_cluster"]
 }
 
 resource "null_resource" "jenkins_release_openshift" {
