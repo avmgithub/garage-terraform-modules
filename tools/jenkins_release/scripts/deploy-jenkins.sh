@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P);
 
 JENKINS_CONFIG_CHART="$1"
