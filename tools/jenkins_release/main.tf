@@ -23,7 +23,6 @@ resource "null_resource" "jenkins_release_iks" {
       KUBECONFIG = "${var.cluster_config_file}"
       TMP_DIR    = "${local.tmp_dir}"
     }
-
   }
 
   provisioner "local-exec" {
