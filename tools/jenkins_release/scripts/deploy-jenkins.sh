@@ -60,7 +60,6 @@ echo "*** Building final kube yaml from kustomize into ${JENKINS_YAML}"
 kustomize build "${JENKINS_KUSTOMIZE}" > "${JENKINS_YAML}"
 
 echo "*** Applying Jenkins yaml to kube"
-echo ${KUBECONFIG}
 kubectl apply -n "${NAMESPACE}" -f "${JENKINS_YAML}"
 
 echo "*** Waiting for Jenkins"
