@@ -25,7 +25,7 @@ OUTPUT_YAML="${TMP_DIR}/ibmcloud-apikey.yaml"
 kubectl delete -n "${NAMESPACE}" secrets/ibmcloud-apikey
 kubectl delete -n "${NAMESPACE}" configmaps/ibmcloud-config
 
-TLS_SECRET_NAME=$(echo "${CLUSTER_NAME}" | sed -E "s/(.{0,23}).*/\1/g" | xargs echo -n)
+TLS_SECRET_NAME=$(kubectl get secrets -o jsonpath='{.items[?(@.data.tls\.key != "")].metadata.name}')
 
 if [[ -n "${TLS_SECRET_FILE}" ]]; then
     echo -n "${TLS_SECRET_NAME}" > ${TLS_SECRET_FILE}

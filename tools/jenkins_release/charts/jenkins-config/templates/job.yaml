@@ -10,15 +10,19 @@ spec:
               - name: wait-for-jenkins
                 image: garagecatalyst/ibm-garage-cli-tools:latest
                 imagePullPolicy: Always
-                command: ["sh", "-c", "until checkPodRunning.sh jenkins && curl -Isf ${JENKINS_URL}; do echo '>>> waiting for Jenkins'; sleep 300; done; echo '>>> Jenkins has started'"]
+                command: ["sh", "-c", "echo $MY_POD_NAME; until checkPodRunning.sh jenkins && curl -Isf ${JENKINS_URL}; do echo '>>> waiting for Jenkins'; sleep 300; done; echo '>>> Jenkins has started'"]
                 envFrom:
                   - secretRef:
                       name: ibmcloud-apikey
                   - configMapRef:
                       name: ibmcloud-config
                 env:
+                - name: MY_POD_NAME
+                  valueFrom:
+                    fieldRef:
+                        fieldPath: metadata.name
                 - name: JENKINS_URL
-                  value: {{ printf "http://%s/login" .Values.jenkins.host | quote }}
+                  value: {{ printf "%s/login" (include "jenkins-config.url" .) }}
             containers:
                 - name: jenkins-config
                   image: garagecatalyst/node11:latest
@@ -33,7 +37,7 @@ spec:
                       - name: JENKINS_HOST
                         value: {{ .Values.jenkins.host | quote }}
                       - name: JENKINS_URL
-                        value: {{ printf "http://%s" .Values.jenkins.host | quote }}
+                        value: {{ include "jenkins-config.url" . }}
                       - name: JENKINS_USERNAME
                         valueFrom:
                             secretKeyRef:
